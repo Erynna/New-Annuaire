@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /*
- * Ce panneau permet de se connecter en tant qu'utilisateur ou administrateur. Il est possible également de créer un compte administrateur.
+ * Ce panneau permet de se connecter en tant qu'utilisateur ou administrateur. Il est possible ï¿½galement de crï¿½er un compte administrateur.
  */
 
 public class IdentificationPannel extends VBox {
@@ -60,7 +60,7 @@ public class IdentificationPannel extends VBox {
 		btnConnexion.setPrefSize(150, 100);
 		btnLambdaUser = new Button("Utilisateur");
 		btnLambdaUser.setPrefSize(150, 100);
-		btnCreationAdmin = new Button("Créer un compte" + "\n   administrateur");
+		btnCreationAdmin = new Button("CrÃ©er un compte" + "\n   administrateur");
 		btnCreationAdmin.setPrefSize(150, 100);
 		hbButton.getChildren().addAll(btnConnexion, btnCreationAdmin, btnLambdaUser);
 		hbButton.setAlignment(Pos.BOTTOM_CENTER);
@@ -68,11 +68,12 @@ public class IdentificationPannel extends VBox {
 		
 		getChildren().addAll(hbLog, hbPass, hbButton);
 		setPrefSize(600, 200);
+		getStylesheets().add(getClass().getResource("./style.css").toExternalForm());
 		
-		//Fonctinnalités administrateurs
+		//FonctinnalitÃ©s administrateurs
 		deleteBtn = new Button("Supprimer");
 		deleteBtn.setPrefSize(100, 30);
-		updateBtn = new Button("MàJ");
+		updateBtn = new Button("MÃ J");
 		updateBtn.setPrefSize(100, 30);
 		hbAdmin = new HBox();
 		hbAdmin.getChildren().addAll(deleteBtn, updateBtn);
@@ -81,7 +82,7 @@ public class IdentificationPannel extends VBox {
 		error.setId("alertMessage");
 		
 		/*
-		 * Cette action permet de se connecter en tant qu'administrateur et de pouvoir accéder à plus de fonctionnalités
+		 * Cette action permet de se connecter en tant qu'administrateur et de pouvoir accï¿½der ï¿½ plus de fonctionnalitï¿½s
 		 */
 		btnConnexion.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -97,8 +98,8 @@ public class IdentificationPannel extends VBox {
 					//Si login et mot de passe correct
 					if (verification) {
 						MainPannel root = new MainPannel();
-			//Ajout Kevin
-						root.getHbSearchOptions().getChildren().add(hbAdmin);
+						root.getHbSearchOptions().getUpdateBtn().setDisable(false);  //Active l'affichage du bouton mettre Ã  jour lorsque l'admin est connectÃ©
+						root.getHbSearchOptions().getDeleteBtn().setDisable(false);  //Active l'affichage du bouton supprimer lorsque l'admin est connectÃ©
 						Scene scene = new Scene(root);
 						Stage stage = (Stage) getScene().getWindow();
 						stage.setTitle("Annuaire");
@@ -114,7 +115,7 @@ public class IdentificationPannel extends VBox {
 		});
 		
 		/*
-		 * Cette action permet l'ouverture d'une nouvelle fenêtre afin de créer un compte administrateur
+		 * Cette action permet l'ouverture d'une nouvelle fenetre afin de creer un compte administrateur
 		 */
 		btnCreationAdmin.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -122,7 +123,7 @@ public class IdentificationPannel extends VBox {
 				CreationAdminPan root = new CreationAdminPan();
 				Scene scene = new Scene(root);
 				Stage stage = new Stage();
-				stage.setTitle("Création d'un compte administrateur");
+				stage.setTitle("CrÃ©ation d'un compte administrateur");
 				stage.setScene(scene);
 				stage.show();
 			}
@@ -136,6 +137,8 @@ public class IdentificationPannel extends VBox {
 			@Override
 			public void handle(ActionEvent event) {
 				MainPannel root = new MainPannel();
+				root.getHbSearchOptions().getUpdateBtn().setDisable(true);  //DÃ©sactive l'affichage du bouton mettre Ã  jour lorsque l'utilisateur lambda est connectÃ©
+				root.getHbSearchOptions().getDeleteBtn().setDisable(true);  //DÃ©sactive l'affichage du bouton supprimer lorsque l'utilisateur lambda est connectÃ©
 				Scene scene = new Scene(root);
 				Stage stage = (Stage) getScene().getWindow();
 				stage.setTitle("Annuaire");
