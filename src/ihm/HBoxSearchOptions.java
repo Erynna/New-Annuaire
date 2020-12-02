@@ -1,13 +1,7 @@
 package ihm;
 
-import java.io.File;
-
 import model.InternProfile;
-import model.InternProfileComparator;
 import model.InternProfileDao;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,19 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class HBoxSearchOptions extends HBox {
 
 	private Button searchBtn = new Button("Rechercher");
 	private Button addBtn = new Button("Ajouter");
 	private Button creationbtn = new Button("Création annuaire");
-
 	private Button updateBtn = new Button("Mettre à jour");
 	private Button deleteBtn = new Button("Supprimer");
 
@@ -35,26 +25,30 @@ public class HBoxSearchOptions extends HBox {
 		super();	
 		setSpacing(10);
 		setPadding(new Insets(10.));
+		
+		setMargin(updateBtn, new Insets(0, 10, 0, 200));
 
 		searchBtn.setPrefSize(100, 30);
 		addBtn.setPrefSize(100, 30);
 		creationbtn.setPrefSize(100, 30);
-
+		updateBtn.setPrefSize(100, 30);
+		deleteBtn.setPrefSize(100, 30);
+		
 		getChildren().addAll(searchBtn, addBtn, creationbtn, updateBtn, deleteBtn);
 
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-            public void handle(ActionEvent event) {
-                VBoxAddProfile vBoxAddProfile = new VBoxAddProfile();
-                MainPannel root = (MainPannel) getScene().getRoot();
+			public void handle(ActionEvent event) {
+				VBoxAddProfile vBoxAddProfile = new VBoxAddProfile();
+				MainPannel root = (MainPannel) getScene().getRoot();
 
-                vBoxAddProfile.getTitle().setText("AJOUTER UN STAGIAIRE");
+				vBoxAddProfile.getTitle().setText("AJOUTER UN STAGIAIRE");
 
-                root.setLeft(vBoxAddProfile);
+				root.setLeft(vBoxAddProfile);
 
-            }
-        });
+			}
+		});
 
 		//Instancie une VBox avec l'ensemble des champs nécessaire pour une recherche
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -94,42 +88,55 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-
+				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
+				
 				if (root.getLeft() == null) {
 
+					VBoxSearchOptions searchBox = new VBoxSearchOptions();
+					root.setLeft(searchBox);
+					searchBox.getTitle().setText("MODIFIER UN STAGIAIRE");
+
+				}
+				
+				if(tableView.getSelectionModel().getSelectedItem() == null) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Message d'alerte");
 					alert.setHeaderText("Aucun stagiaire sélectionné");
-					alert.setContentText("Vous n'avez sélectionnez aucun Stagiaire à modifier");
+					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
 					alert.showAndWait();
+				}
+				
+				else {
 
-
-				}else {
-
-					//Méthode d'actualisation de la BDD
+					InternProfileDao dao = new InternProfileDao();
+					VBoxSearchOptions searchBox = (VBoxSearchOptions) root.getLeft();
+					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
+					InternProfile newIp = new InternProfile(searchBox.getTextFieldSurname().getText(), searchBox.getTextFieldFirstName().getText(), searchBox.getTextFieldCounty().getText(), searchBox.getTextFieldPromotion().getText(), searchBox.getCbYearStudy().getValue());
+					dao.modifyInternProfile(oldIp, newIp);
+					root.setCenter(new TableViewInternProfiles(dao.getAll()));
 
 				}
 
 			}
 		});
-		
+
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-				
+
 				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
-				
+
 				InternProfile profile = tableView.getSelectionModel().getSelectedItem();
-				
+
 				InternProfileDao dao = new InternProfileDao();
-				
+
 				dao.deleteInternProfile(profile);
-				
+
 				root.setCenter(new TableViewInternProfiles(dao.getAll()));
-				
+
 			}
 		});
 

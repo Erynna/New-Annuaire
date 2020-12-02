@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,7 +24,7 @@ public class IdentificationPannel extends VBox {
 	private TextField tfLogin;
 	private HBox hbLog;
 	private Label lblPassword;
-	private TextField tfPassword;
+	private PasswordField passwordField = new PasswordField();
 	private HBox hbPass;
 	private Button btnLambdaUser;
 	private Button btnConnexion;
@@ -49,9 +50,8 @@ public class IdentificationPannel extends VBox {
 		hbPass = new HBox();
 		lblPassword = new Label("Mot de passe : ");
 		lblPassword.setPrefWidth(150);
-		tfPassword = new TextField();
-		tfPassword.setPrefWidth(300);
-		hbPass.getChildren().addAll(lblPassword, tfPassword);
+		passwordField.setPrefWidth(300);
+		hbPass.getChildren().addAll(lblPassword, passwordField);
 		hbPass.setAlignment(Pos.TOP_CENTER);
 		hbPass.setPadding(new Insets(5.));	
 		
@@ -80,7 +80,7 @@ public class IdentificationPannel extends VBox {
 		
 		error = new Label("Login et/ou mot de passe incorrect");
 		error.setId("alertMessage");
-		
+
 		/*
 		 * Cette action permet de se connecter en tant qu'administrateur et de pouvoir acc�der � plus de fonctionnalit�s
 		 */
@@ -89,7 +89,7 @@ public class IdentificationPannel extends VBox {
 			@Override
 			public void handle(ActionEvent event) {
 				String lg = tfLogin.getText().trim();
-				String ps = tfPassword.getText().trim();
+				String ps = passwordField.getText().trim();
 				AdminUser admin = new AdminUser(lg, ps); 	
 				AdminUserDao dao = new AdminUserDao();
 				if(lg.length() != 0 && ps.length() != 0) {
@@ -146,10 +146,7 @@ public class IdentificationPannel extends VBox {
 			}
 		});
 		
-
 	}
-	
-
 
 	public Label getLblLogin() {
 		return lblLogin;
@@ -169,11 +166,14 @@ public class IdentificationPannel extends VBox {
 	public void setLblPassword(Label lblPassword) {
 		this.lblPassword = lblPassword;
 	}
-	public TextField getTfPassword() {
-		return tfPassword;
+	public PasswordField getPasswordField() {
+		return passwordField;
 	}
-	public void setTfPassword(TextField tfPassword) {
-		this.tfPassword = tfPassword;
+	public void setPasswordField(PasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+	public void setError(Label error) {
+		this.error = error;
 	}
 	public Button getBtnLambdaUser() {
 		return btnLambdaUser;
@@ -217,42 +217,22 @@ public class IdentificationPannel extends VBox {
 	public void setLabel(Label error) {
 		this.error = error;
 	}
-
-
-
 	public Button getDeleteBtn() {
 		return deleteBtn;
 	}
-
-
-
 	public void setDeleteBtn(Button deleteBtn) {
 		this.deleteBtn = deleteBtn;
 	}
-
-
-
 	public Button getUpdateBtn() {
 		return updateBtn;
 	}
-
-
-
 	public void setUpdateBtn(Button updateBtn) {
 		this.updateBtn = updateBtn;
 	}
-
-
-
 	public HBox getHbAdmin() {
 		return hbAdmin;
 	}
-
-
-
 	public void setHbAdmin(HBox hbAdmin) {
 		this.hbAdmin = hbAdmin;
 	}
-	
-
 }

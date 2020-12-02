@@ -82,6 +82,8 @@ public class VBoxAddProfile extends VBox {
 			@Override
 			public void handle(ActionEvent event) {			
 				emptyFieldsTests();
+				
+				System.out.println(getTextFieldFirstName().getText());
 				//				if(textFieldSurname.getText() == null) {
 				//					textFieldSurname.setPromptText("Veuillez entrer un nom");
 				//					textFieldSurname.setStyle("-fx-prompt-text-fill: red");
