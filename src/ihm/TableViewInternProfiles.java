@@ -3,6 +3,8 @@ package ihm;
 import java.util.List;
 import model.InternProfile;
 import model.InternProfileDao;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -20,20 +22,20 @@ public class TableViewInternProfiles extends AnchorPane {
 	@SuppressWarnings("unchecked")
 	public TableViewInternProfiles(List<InternProfile> internProfiles) {
 		super();
-	
+
 		ObservableList<InternProfile> observableProfiles = FXCollections.observableArrayList(internProfiles);
-		
-		TableView<InternProfile> tableView = new TableView<InternProfile>(observableProfiles);
+
+		tableView = new TableView<InternProfile>(observableProfiles);
 
 		TableColumn<InternProfile, String> colSurName = new TableColumn<InternProfile, String>("Nom");
 		colSurName.setCellValueFactory(new PropertyValueFactory<InternProfile, String>("surname"));
-		TableColumn<InternProfile, String> colFirstName = new TableColumn<InternProfile, String>("Prénom");
+		TableColumn<InternProfile, String> colFirstName = new TableColumn<InternProfile, String>("PrÃ©nom");
 		colFirstName.setCellValueFactory(new PropertyValueFactory<InternProfile, String>("firstName"));
-		TableColumn<InternProfile, String> colCounty = new TableColumn<InternProfile, String>("Département");
+		TableColumn<InternProfile, String> colCounty = new TableColumn<InternProfile, String>("DÃ©partement");
 		colCounty.setCellValueFactory(new PropertyValueFactory<InternProfile, String>("county"));
 		TableColumn<InternProfile, String> colPromotion = new TableColumn<InternProfile, String>("Promotion");
 		colPromotion.setCellValueFactory(new PropertyValueFactory<InternProfile, String>("promotion"));
-		TableColumn<InternProfile, Integer> colStudyYear = new TableColumn<InternProfile, Integer>("Année");
+		TableColumn<InternProfile, Integer> colStudyYear = new TableColumn<InternProfile, Integer>("AnnÃ©e");
 		colStudyYear.setCellValueFactory(new PropertyValueFactory<InternProfile, Integer>("studyYear"));
 
 		tableView.getColumns().addAll(colSurName, colFirstName, colCounty, colPromotion, colStudyYear);
@@ -47,7 +49,34 @@ public class TableViewInternProfiles extends AnchorPane {
 		AnchorPane.setLeftAnchor(tableView, 5.);
 		AnchorPane.setRightAnchor(tableView, 5.);
 		AnchorPane.setTopAnchor(tableView, 5.);
+
+		tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<InternProfile>() {
+
+			@Override
+			public void changed(ObservableValue<? extends InternProfile> observable, InternProfile oldValue,
+					InternProfile newValue) {
+
+				MainPannel root = (MainPannel) getScene().getRoot();
+
+				if(root.getLeft() != null) {
+
+					VBoxSearchOptions searchBox = (VBoxSearchOptions) root.getLeft();
+
+					searchBox.getTextFieldSurname().setText(newValue.getSurname());
+					searchBox.getTextFieldFirstName().setText(newValue.getFirstName());
+					searchBox.getTextFieldCounty().setText(newValue.getCounty());
+					searchBox.getTextFieldPromotion().setText(newValue.getPromotion());
+					searchBox.getCbYearStudy().setValue(newValue.getStudyYear());;
+
+				}
+
+			}
+		});
+
+
 	}
+	
+	
 
 	public ObservableList<InternProfile> getObservableProfiles() {
 		return observableProfiles;
