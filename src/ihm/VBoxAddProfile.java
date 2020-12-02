@@ -81,33 +81,8 @@ public class VBoxAddProfile extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {			
-				emptyFieldsTests();
-				//				if(textFieldSurname.getText() == null) {
-				//					textFieldSurname.setPromptText("Veuillez entrer un nom");
-				//					textFieldSurname.setStyle("-fx-prompt-text-fill: red");
-				//				}
-				//				if(textFieldFirstName.getText() == null) {
-				//					textFieldFirstName.setPromptText("Veuillez entrer un prénom");
-				//					textFieldFirstName.setStyle("-fx-prompt-text-fill: red");
-				//				}
-				//				if(textFieldCounty.getText() == null) {
-				//					textFieldCounty.setPromptText("Veuillez entrer un département");
-				//					textFieldCounty.setStyle("-fx-prompt-text-fill: red");
-				//				}
-				//				if(textFieldPromotion.getText() == null) {
-				//					textFieldPromotion.setPromptText("Veuillez entrer une promotion");
-				//					textFieldPromotion.setStyle("-fx-prompt-text-fill: red");
-				//				}
-				//				if(cbYearStudy.getValue() == null) {
-				//					cbYearStudy.setPromptText("Veuillez entrer une année");
-				//					cbYearStudy.setStyle("-fx-prompt-text-fill: red");
-				//				}			
-				//				Alert alertMissingInfo = new Alert(AlertType.WARNING);
-				//				alertMissingInfo.setTitle("Message d'alerte");
-				//				alertMissingInfo.setHeaderText("Information(s) manquante(s)");
-				//				alertMissingInfo.setContentText("Tous les champs doivent être renseignés");
-				//				alertMissingInfo.showAndWait();
-				//				break;
+				//emptyFieldsTests();
+			
 				if (textFieldSurname != null && textFieldFirstName != null && textFieldCounty != null && textFieldPromotion != null && cbYearStudy != null) {
 					String surname = textFieldSurname.getText().toUpperCase();
 					String firstname = textFieldFirstName.getText().substring(0,1).toUpperCase() + textFieldFirstName.getText().substring(1).toLowerCase();
@@ -130,13 +105,36 @@ public class VBoxAddProfile extends VBox {
 							canSave = false;
 							break;
 						}
-					}
-					if(canSave) {
+					}if(canSave) {
 						observableProfiles.add(internProfile);
 						dao.addInternProfile(internProfile);				
-						getPopUpWindow().close();	
-
 					} 
+				}else if (textFieldSurname.getLength() == 0 || textFieldFirstName.getLength() == 0 || textFieldCounty.getLength() == 0 || textFieldPromotion.getLength() == 0 || cbYearStudy == null) {
+					if(textFieldSurname.getText() == null) {
+						textFieldSurname.setPromptText("Veuillez entrer un nom");
+						textFieldSurname.setStyle("-fx-prompt-text-fill: red");
+					}
+					if(textFieldFirstName.getText() == null) {
+						textFieldFirstName.setPromptText("Veuillez entrer un prénom");
+						textFieldFirstName.setStyle("-fx-prompt-text-fill: red");
+					}
+					if(textFieldCounty.getText() == null) {
+						textFieldCounty.setPromptText("Veuillez entrer un département");
+						textFieldCounty.setStyle("-fx-prompt-text-fill: red");
+					}
+					if(textFieldPromotion.getText() == null) {
+						textFieldPromotion.setPromptText("Veuillez entrer une promotion");
+						textFieldPromotion.setStyle("-fx-prompt-text-fill: red");
+					}
+					if(cbYearStudy.getValue() == null) {
+						cbYearStudy.setPromptText("Veuillez entrer une année");
+						cbYearStudy.setStyle("-fx-prompt-text-fill: red");
+					}			
+					Alert alertMissingInfo = new Alert(AlertType.WARNING);
+					alertMissingInfo.setTitle("MESSAGE D'ALERTE");
+					alertMissingInfo.setHeaderText("INFORMATION(S) MANQUANTE(S)");
+					alertMissingInfo.setContentText("Tous les champs doivent être renseignés");
+					alertMissingInfo.showAndWait();	
 				}
 			}
 		});
@@ -161,31 +159,32 @@ public class VBoxAddProfile extends VBox {
 	}
 
 	public void emptyFieldsTests() {
-		if(textFieldSurname.getText() == null) {
-			textFieldSurname.setPromptText("Veuillez entrer un nom");
-			textFieldSurname.setStyle("-fx-prompt-text-fill: red");
-		}
-		if(textFieldFirstName.getText() == null) {
-			textFieldFirstName.setPromptText("Veuillez entrer un prénom");
-			textFieldFirstName.setStyle("-fx-prompt-text-fill: red");
-		}
-		if(textFieldCounty.getText() == null) {
-			textFieldCounty.setPromptText("Veuillez entrer un département");
-			textFieldCounty.setStyle("-fx-prompt-text-fill: red");
-		}
-		if(textFieldPromotion.getText() == null) {
-			textFieldPromotion.setPromptText("Veuillez entrer une promotion");
-			textFieldPromotion.setStyle("-fx-prompt-text-fill: red");
-		}
-		if(cbYearStudy.getValue() == null) {
-			cbYearStudy.setPromptText("Veuillez entrer une année");
-			cbYearStudy.setStyle("-fx-prompt-text-fill: red");
-		}			
-		Alert alertMissingInfo = new Alert(AlertType.WARNING);
-		alertMissingInfo.setTitle("MESSAGE D'ALERTE");
-		alertMissingInfo.setHeaderText("INFORMATION(S) MANQUANTE(S)");
-		alertMissingInfo.setContentText("Tous les champs doivent être renseignés");
-		alertMissingInfo.showAndWait();
+//		if(textFieldSurname.getText() == null) {
+//			textFieldSurname.setPromptText("Veuillez entrer un nom");
+//			textFieldSurname.setStyle("-fx-prompt-text-fill: red");
+//		}
+//		if(textFieldFirstName.getText() == null) {
+//			textFieldFirstName.setPromptText("Veuillez entrer un prénom");
+//			textFieldFirstName.setStyle("-fx-prompt-text-fill: red");
+//		}
+//		if(textFieldCounty.getText() == null) {
+//			textFieldCounty.setPromptText("Veuillez entrer un département");
+//			textFieldCounty.setStyle("-fx-prompt-text-fill: red");
+//		}
+//		if(textFieldPromotion.getText() == null) {
+//			textFieldPromotion.setPromptText("Veuillez entrer une promotion");
+//			textFieldPromotion.setStyle("-fx-prompt-text-fill: red");
+//		}
+//		if(cbYearStudy.getValue() == null) {
+//			cbYearStudy.setPromptText("Veuillez entrer une année");
+//			cbYearStudy.setStyle("-fx-prompt-text-fill: red");
+//		}			
+//		Alert alertMissingInfo = new Alert(AlertType.WARNING);
+//		alertMissingInfo.setTitle("MESSAGE D'ALERTE");
+//		alertMissingInfo.setHeaderText("INFORMATION(S) MANQUANTE(S)");
+//		alertMissingInfo.setContentText("Tous les champs doivent être renseignés");
+//		alertMissingInfo.showAndWait();	
+//		
 	}
 
 
