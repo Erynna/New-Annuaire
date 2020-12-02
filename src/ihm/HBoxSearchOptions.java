@@ -4,6 +4,7 @@ import java.io.File;
 
 import model.InternProfile;
 import model.InternProfileComparator;
+import model.InternProfileDao;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
@@ -108,6 +110,26 @@ public class HBoxSearchOptions extends HBox {
 
 				}
 
+			}
+		});
+		
+		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				MainPannel root = (MainPannel) getScene().getRoot();
+				
+				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
+				
+				InternProfile profile = tableView.getSelectionModel().getSelectedItem();
+				
+				InternProfileDao dao = new InternProfileDao();
+				
+				dao.deleteInternProfile(profile);
+				
+				root.setCenter(new TableViewInternProfiles(dao.getAll()));
+				
 			}
 		});
 

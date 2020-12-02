@@ -98,8 +98,8 @@ public class IdentificationPannel extends VBox {
 					//Si login et mot de passe correct
 					if (verification) {
 						MainPannel root = new MainPannel();
-			//Ajout Kevin
-						root.getHbSearchOptions().getChildren().add(hbAdmin);
+						root.getHbSearchOptions().getUpdateBtn().setDisable(false);  //Active l'affichage du bouton mettre à jour lorsque l'admin est connecté
+						root.getHbSearchOptions().getDeleteBtn().setDisable(false);  //Active l'affichage du bouton supprimer lorsque l'admin est connecté
 						Scene scene = new Scene(root);
 						Stage stage = (Stage) getScene().getWindow();
 						stage.setTitle("Annuaire");
@@ -137,6 +137,8 @@ public class IdentificationPannel extends VBox {
 			@Override
 			public void handle(ActionEvent event) {
 				MainPannel root = new MainPannel();
+				root.getHbSearchOptions().getUpdateBtn().setDisable(true);  //Désactive l'affichage du bouton mettre à jour lorsque l'utilisateur lambda est connecté
+				root.getHbSearchOptions().getDeleteBtn().setDisable(true);  //Désactive l'affichage du bouton supprimer lorsque l'utilisateur lambda est connecté
 				Scene scene = new Scene(root);
 				Stage stage = (Stage) getScene().getWindow();
 				stage.setTitle("Annuaire");
