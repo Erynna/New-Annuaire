@@ -94,7 +94,6 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
 
 				if (root.getLeft() != null) {
 					
@@ -105,14 +104,14 @@ public class HBoxSearchOptions extends HBox {
 						vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
 						vboxOption.getBottomPane().getChildren().remove(0);
 						vboxOption.getBottomPane().getChildren().remove(0);
-						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
+						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getUpdateBtn(), vboxOption.getResetBtn());
 						
 					}else if (vboxOption.getTitle().getText() == "RECHERCHER UN STAGIAIRE") {
 						
 						vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
 						vboxOption.getBottomPane().getChildren().remove(0);
 						vboxOption.getBottomPane().getChildren().remove(0);
-						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
+						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getUpdateBtn(), vboxOption.getResetBtn());
 						
 					}
 					
@@ -120,23 +119,8 @@ public class HBoxSearchOptions extends HBox {
 					
 					VBoxAddSearch vboxOption = new VBoxAddSearch();
 					vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
-					vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
-				}
-
-				if(tableView.getSelectionModel().getSelectedItem() == null) {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Message d'alerte");
-					alert.setHeaderText("Aucun stagiaire sélectionné");
-					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
-					alert.showAndWait();
-				}else {
-
-					VBoxAddSearch optionVbox = (VBoxAddSearch) root.getLeft();
-					InternProfileDao dao = new InternProfileDao();
-					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
-					InternProfile newIp = new InternProfile(optionVbox.getTextFieldSurname().getText(), optionVbox.getTextFieldFirstName().getText(), optionVbox.getTextFieldCounty().getText(), optionVbox.getTextFieldPromotion().getText(), optionVbox.getCbYearStudy().getValue());
-					dao.modifyInternProfile(oldIp, newIp);
-					root.setCenter(new TableViewInternProfiles(dao.getAll()));
+					vboxOption.getBottomPane().getChildren().addAll(vboxOption.getUpdateBtn(), vboxOption.getResetBtn());
+					root.setLeft(vboxOption);
 				}
 
 			}

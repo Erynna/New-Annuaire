@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
@@ -62,11 +63,13 @@ public class VBoxAddSearch extends VBox {
 
 		VBox.setMargin(searchBtn, new Insets(50, 0, 20, 0));
 		VBox.setMargin(addBtn, new Insets(50, 0, 20, 0));
+		VBox.setMargin(updateBtn, new Insets(50, 0, 20, 0));
 		bottomPane.setAlignment(Pos.CENTER);
 
 		title.setStyle("-fx-font-size: 20; -fx-font-weight: bold");
 		textFieldSurname.setPrefWidth(200);
 		searchBtn.setPrefSize(150, 30);
+		updateBtn.setPrefSize(150, 30);
 		addBtn.setPrefSize(150, 30);
 		resetBtn.setPrefSize(150, 30);
 		cbYearStudy.setVisibleRowCount(5);
@@ -153,6 +156,34 @@ public class VBoxAddSearch extends VBox {
 
 				TableViewInternProfiles tableViewFiltered = new TableViewInternProfiles(filteredProfiles);
 				root.setCenter(tableViewFiltered);
+			}
+		});
+		
+		updateBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				MainPannel root = (MainPannel) getScene().getRoot();
+				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
+
+				if(tableView.getSelectionModel().getSelectedItem() == null) {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Message d'alerte");
+					alert.setHeaderText("Aucun stagiaire sélectionné");
+					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
+					alert.showAndWait();
+				}else {
+
+					VBoxAddSearch optionVbox = (VBoxAddSearch) root.getLeft();
+					InternProfileDao dao = new InternProfileDao();
+					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
+					InternProfile newIp = new InternProfile(optionVbox.getTextFieldSurname().getText(), optionVbox.getTextFieldFirstName().getText(), optionVbox.getTextFieldCounty().getText(), optionVbox.getTextFieldPromotion().getText(), optionVbox.getCbYearStudy().getValue());
+					dao.modifyInternProfile(oldIp, newIp);
+					root.setCenter(new TableViewInternProfiles(dao.getAll()));
+				}
+
+				
 			}
 		});
 
