@@ -25,13 +25,13 @@ public class VBoxAddSearch extends VBox {
 	private Label title = new Label();
 	private VBox bottomPane = new VBox();
 	private Label labelSurname = new Label("Nom");
-	private TextField textFieldSurname = new TextField(null);
+	private TextField textFieldSurname = new TextField("");
 	private Label labelFirstName = new Label("Prénom");
-	private TextField textFieldFirstName = new TextField(null);
+	private TextField textFieldFirstName = new TextField("");
 	private Label labelCounty = new Label("Département");
-	private TextField textFieldCounty = new TextField(null);
+	private TextField textFieldCounty = new TextField("");
 	private Label labelPromotion = new Label("Promotion");
-	private TextField textFieldPromotion = new TextField(null);
+	private TextField textFieldPromotion = new TextField("");
 	private Label labelYearStudy = new Label("Année");
 	private ComboBox<Integer> cbYearStudy = new ComboBox<Integer>();
 	private Button searchBtn = new Button("Rechercher");
@@ -162,10 +162,10 @@ public class VBoxAddSearch extends VBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-				getTextFieldSurname().setText(null);
-				getTextFieldFirstName().setText(null);
-				getTextFieldCounty().setText(null);
-				getTextFieldPromotion().setText(null);
+				getTextFieldSurname().setText("");
+				getTextFieldFirstName().setText("");
+				getTextFieldCounty().setText("");
+				getTextFieldPromotion().setText("");
 				getCbYearStudy().setValue(null);
 				InternProfileDao dao = new InternProfileDao();
 				root.setCenter(new TableViewInternProfiles(dao.getAll()));
