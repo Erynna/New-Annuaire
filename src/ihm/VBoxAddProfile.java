@@ -71,8 +71,7 @@ public class VBoxAddProfile extends VBox {
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {			
-			
+			public void handle(ActionEvent event) {
 				if (textFieldSurname != null && textFieldFirstName != null && textFieldCounty != null && textFieldPromotion != null && cbYearStudy.getValue() != null) {
 					String surname = textFieldSurname.getText().toUpperCase();
 					String firstname = textFieldFirstName.getText().substring(0,1).toUpperCase() + textFieldFirstName.getText().substring(1).toLowerCase();
@@ -80,9 +79,7 @@ public class VBoxAddProfile extends VBox {
 					String promotion = textFieldPromotion.getText().toUpperCase();
 					int studyYear = cbYearStudy.getValue();
 					
-
 					InternProfile internProfile = new InternProfile(surname, firstname, county, promotion, studyYear);
-
 					boolean canSave = true;
 					for (InternProfile observableProfile : observableProfiles) {
 						InternProfileComparator internProfileComparator = new InternProfileComparator();
@@ -131,11 +128,11 @@ public class VBoxAddProfile extends VBox {
 				}
 			}
 		});
+		
 		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-
 				MainPannel root = (MainPannel) getScene().getRoot();
 				getTextFieldSurname().setText(null);
 				getTextFieldFirstName().setText(null);
@@ -144,161 +141,98 @@ public class VBoxAddProfile extends VBox {
 				getCbYearStudy().setValue(null);
 				InternProfileDao dao = new InternProfileDao();
 				root.setCenter(new TableViewInternProfiles(dao.getAll()));
-
 			}
 		});
-
 		setSpacing(5.);
 	}
-
-
-
 
 	public Label getTitle() {
 		return title;
 	}
-
-
 	public void setTitle(Label title) {
 		this.title = title;
 	}
-
-
 	public VBox getBottomPane() {
 		return bottomPane;
 	}
-
-
 	public void setBottomPane(VBox bottomPane) {
 		this.bottomPane = bottomPane;
 	}
-
-
 	public Label getLabelSurname() {
 		return labelSurname;
 	}
-
-
 	public void setLabelSurname(Label labelSurname) {
 		this.labelSurname = labelSurname;
 	}
-
-
 	public TextField getTextFieldSurname() {
 		return textFieldSurname;
 	}
-
-
 	public void setTextFieldSurname(TextField textFieldSurname) {
 		this.textFieldSurname = textFieldSurname;
 	}
-
-
 	public Label getLabelFirstName() {
 		return labelFirstName;
 	}
-
-
 	public void setLabelFirstName(Label labelFirstName) {
 		this.labelFirstName = labelFirstName;
 	}
-
-
 	public TextField getTextFieldFirstName() {
 		return textFieldFirstName;
 	}
-
-
 	public void setTextFieldFirstName(TextField textFieldFirstName) {
 		this.textFieldFirstName = textFieldFirstName;
 	}
-
-
 	public Label getLabelCounty() {
 		return labelCounty;
 	}
-
-
 	public void setLabelCounty(Label labelCounty) {
 		this.labelCounty = labelCounty;
 	}
-
-
 	public TextField getTextFieldCounty() {
 		return textFieldCounty;
 	}
-
-
 	public void setTextFieldCounty(TextField textFieldCounty) {
 		this.textFieldCounty = textFieldCounty;
 	}
-
-
 	public Label getLabelPromotion() {
 		return labelPromotion;
 	}
-
-
 	public void setLabelPromotion(Label labelPromotion) {
 		this.labelPromotion = labelPromotion;
 	}
-
-
 	public TextField getTextFieldPromotion() {
 		return textFieldPromotion;
 	}
-
-
 	public void setTextFieldPromotion(TextField textFieldPromotion) {
 		this.textFieldPromotion = textFieldPromotion;
 	}
-
-
 	public Label getLabelYearStudy() {
 		return labelYearStudy;
 	}
-
-
 	public void setLabelYearStudy(Label labelYearStudy) {
 		this.labelYearStudy = labelYearStudy;
 	}
-
-
 	public ComboBox<Integer> getCbYearStudy() {
 		return cbYearStudy;
 	}
-
-
 	public void setCbYearStudy(ComboBox<Integer> cbYearStudy) {
 		this.cbYearStudy = cbYearStudy;
 	}
-
-
 	public Button getAddBtn() {
 		return addBtn;
 	}
-
-
 	public void setAddBtn(Button addBtn) {
 		this.addBtn = addBtn;
 	}
-
-
 	public Button getResetBtn() {
 		return resetBtn;
 	}
-
-
 	public void setResetBtn(Button resetBtn) {
 		this.resetBtn = resetBtn;
 	}
-
-
 	public Stage getPopUpWindow() {
 		return popUpWindow;
 	}
-
-
 	public void setPopUpWindow(Stage popUpWindow) {
 		this.popUpWindow = popUpWindow;
 	}

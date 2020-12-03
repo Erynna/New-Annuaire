@@ -5,11 +5,8 @@ import model.CreationAnnuaire;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -32,8 +29,10 @@ public class CreationPan extends BorderPane {
 	public CreationPan() {
 		super();	
 
-		lblInfo1 = new Label("Choisissez le fichier à partir duquel vous souhaitez créer un annuaire :");
+		lblInfo1 = new Label("Choisissez le fichier à partir duquel vous souhaitez créer un annuaire : \r");
 		btnBrowse = new Button("Rechercher");
+		btnBrowse.setPrefSize(100, 40);
+		
 		btnOk = new Button("Ok");
 		setTop(lblInfo1);
 		setCenter(btnBrowse);
@@ -76,7 +75,7 @@ public class CreationPan extends BorderPane {
 		CreationAnnuaire annuaire = new CreationAnnuaire(fileOrigin);
 		annuaire.createInternsBDDFile();
 	}
-
+	
 	public Label getLblFile() {
 		return lblFile;
 	}

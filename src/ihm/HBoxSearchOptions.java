@@ -3,31 +3,26 @@ package ihm;
 import java.io.File;
 
 import model.InternProfile;
-import model.InternProfileComparator;
 import model.InternProfileDao;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class HBoxSearchOptions extends HBox {
 
+	private Label lblMenu = new Label("Menu		");
 	private Button searchBtn = new Button("Rechercher");
 	private Button addBtn = new Button("Ajouter");
 	private Button creationbtn = new Button("Création annuaire");
-
+	private Button btnR = new Button("Rafraichir");
 	private Button updateBtn = new Button("Mettre à jour");
 	private Button deleteBtn = new Button("Supprimer");
 
@@ -40,7 +35,7 @@ public class HBoxSearchOptions extends HBox {
 		addBtn.setPrefSize(100, 30);
 		creationbtn.setPrefSize(100, 30);
 
-		getChildren().addAll(searchBtn, addBtn, creationbtn, updateBtn, deleteBtn);
+		getChildren().addAll(lblMenu, creationbtn, btnR, searchBtn, addBtn, updateBtn, deleteBtn);
 
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -132,46 +127,64 @@ public class HBoxSearchOptions extends HBox {
 				
 			}
 		});
+		
+		File annuaire = new File("./internBDD.bin");
+		btnR.setOnAction(new EventHandler<ActionEvent>() {		//Fonction --> btnR du main pannel à enlever
+			
+			@Override
+			public void handle(ActionEvent event) {
+				if(annuaire.exists()) {
+					InternProfileDao dao = new InternProfileDao();
+					TableViewInternProfiles tableViewInternProfiles = new TableViewInternProfiles(dao.getAll());
+					MainPannel root = (MainPannel) getScene().getRoot();
+					root.setCenter(tableViewInternProfiles);
+				}
+			}
+		});
 
 	}
 
 	public Button getSearchBtn() {
 		return searchBtn;
 	}
-
 	public void setSearchBtn(Button searchBtn) {
 		this.searchBtn = searchBtn;
 	}
-
 	public Button getAddBtn() {
 		return addBtn;
 	}
-
 	public void setAddBtn(Button addBtn) {
 		this.addBtn = addBtn;
 	}
-
 	public Button getCreationbtn() {
 		return creationbtn;
 	}
-
 	public void setCreationbtn(Button creationbtn) {
 		this.creationbtn = creationbtn;
 	}
-
 	public Button getUpdateBtn() {
 		return updateBtn;
 	}
-
 	public void setUpdateBtn(Button updateBtn) {
 		this.updateBtn = updateBtn;
 	}
-
 	public Button getDeleteBtn() {
 		return deleteBtn;
 	}
-
 	public void setDeleteBtn(Button deleteBtn) {
 		this.deleteBtn = deleteBtn;
 	}
+	public Label getLblMenu() {
+		return lblMenu;
+	}
+	public void setLblMenu(Label lblMenu) {
+		this.lblMenu = lblMenu;
+	}
+	public Button getBtnR() {
+		return btnR;
+	}
+	public void setBtnR(Button btnR) {
+		this.btnR = btnR;
+	}
+	
 }

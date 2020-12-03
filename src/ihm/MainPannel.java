@@ -2,9 +2,6 @@ package ihm;
 
 import java.io.File;
 import model.InternProfileDao;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
@@ -17,15 +14,12 @@ public class MainPannel extends BorderPane {
 	private TableViewInternProfiles tableViewInternProfiles;
 	private HBoxSearchOptions hbSearchOptions = new HBoxSearchOptions();
 	private Label lblTV = new Label("L'annuaire n'existe pas");
-	private Button btnR = new Button("Rafraichir");
 	
 	public MainPannel() {
 		super();
 		setPrefSize(1000, 700);
 		setTop(hbSearchOptions);
-		setBottom(btnR);
-		
-		//Ajout du TableView
+
 		File annuaire = new File("./internBDD.bin");
 		if(annuaire.exists()) {
 			InternProfileDao dao = new InternProfileDao();
@@ -34,18 +28,6 @@ public class MainPannel extends BorderPane {
 		}else {
 			setCenter(lblTV);
 		}
-		
-		btnR.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				if(annuaire.exists()) {
-					InternProfileDao dao = new InternProfileDao();
-					tableViewInternProfiles = new TableViewInternProfiles(dao.getAll());
-					setCenter(tableViewInternProfiles);
-				}
-			}
-		});
 	}
 
 	public TableViewInternProfiles getTableViewInternProfiles() {
@@ -65,12 +47,6 @@ public class MainPannel extends BorderPane {
 	}
 	public void setLblTV(Label lblTV) {
 		this.lblTV = lblTV;
-	}
-	public Button getBtnR() {
-		return btnR;
-	}
-	public void setBtnR(Button btnR) {
-		this.btnR = btnR;
 	}
 	
 }

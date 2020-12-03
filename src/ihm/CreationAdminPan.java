@@ -1,22 +1,19 @@
 package ihm;
 
-import model.AdminUser;
 import model.AdminUserDao;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class CreationAdminPan extends VBox {
 
-	//M�thode permettant la cr�ation d'un compte admin et l'enregistrement dans un fichier csv
+	//Méthode permettant la création d'un compte admin et l'enregistrement dans un fichier binaire
 
 	private Label lblLogin;
 	private TextField tfLogin;
@@ -26,12 +23,10 @@ public class CreationAdminPan extends VBox {
 	private HBox hbLog;
 	private HBox hbPass;
 	private HBox hbBtn;
-	private Label lblError;
-	//	private AdminUserDao;   //cr�ation d'une dao � faire
+	private Label error;
+	private Label error2;
 
 	public CreationAdminPan() {
-		setPrefSize(600, 200);
-
 		hbLog = new HBox();
 		lblLogin = new Label("Choisissez un login : ");
 		lblLogin.setPrefWidth(200);
@@ -56,31 +51,36 @@ public class CreationAdminPan extends VBox {
 		hbBtn.getChildren().addAll(btnCreate);
 		hbBtn.setAlignment(Pos.BOTTOM_CENTER);
 		hbBtn.setPadding(new Insets(5.));
+		
+		error = new Label("Login déjà existant");
+		error2 = new Label("Veuillez remplir tous les champs");
+		error.setId("warning");
+		error2.setId("warning");
 
-		getChildren().addAll(hbLog, hbPass, hbBtn);
+		setPrefSize(600, 200);
 		setPadding(new Insets(15.));
+		getStylesheets().add(getClass().getResource("./style.css").toExternalForm());
+		getChildren().addAll(hbLog, hbPass, hbBtn);
 
-		//Création d'un compte		//OK
 		btnCreate.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				String login = tfLogin.getText();
 				String password = tfPassword.getText();
-	//			AdminUser admin = new AdminUser(login, password);		//Utilit�  ??
 				AdminUserDao dao =  new AdminUserDao();
 				
-				//		Apparition d'un message d'erreur si login déjà existant	
-				if(dao.checkLoginExistence(login)){
-					lblError = new Label("Login déjà existant");
-					getChildren().add(lblError);
+				if(login.length() != 0 && password.length() != 0) {
+					if(dao.checkLoginExistence(login)){
+						getChildren().add(error);
+					}else {
+						dao.addAdminAccount(login, password);
+					}
 				}else {
-					dao.addAdminAccount(login, password);
-					
+					getChildren().add(error2);
 				}
 			}
 		});
-
 
 	}
 

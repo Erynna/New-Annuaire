@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /*
- * Ce panneau permet de se connecter en tant qu'utilisateur ou administrateur. Il est possible �galement de cr�er un compte administrateur.
+ * Ce panneau permet de se connecter en tant qu'utilisateur ou administrateur. Il est possible également de créer un compte administrateur.
  */
 
 public class IdentificationPannel extends VBox {
@@ -30,9 +30,6 @@ public class IdentificationPannel extends VBox {
 	private Button btnCreationAdmin;
 	private HBox hbButton;
 	private Label error;
-	private Button deleteBtn;
-	private Button updateBtn;
-	private HBox hbAdmin;
 	
 	public IdentificationPannel() {
 		super();
@@ -65,21 +62,15 @@ public class IdentificationPannel extends VBox {
 		hbButton.getChildren().addAll(btnConnexion, btnCreationAdmin, btnLambdaUser);
 		hbButton.setAlignment(Pos.BOTTOM_CENTER);
 		hbButton.setSpacing(15);
+		hbButton.setPadding(new Insets(5.));
 		
 		getChildren().addAll(hbLog, hbPass, hbButton);
-		setPrefSize(600, 200);
+		setPrefSize(600, 220);
 		getStylesheets().add(getClass().getResource("./style.css").toExternalForm());
 		
-		//Fonctinnalités administrateurs
-		deleteBtn = new Button("Supprimer");
-		deleteBtn.setPrefSize(100, 30);
-		updateBtn = new Button("MàJ");
-		updateBtn.setPrefSize(100, 30);
-		hbAdmin = new HBox();
-		hbAdmin.getChildren().addAll(deleteBtn, updateBtn);
-		
 		error = new Label("Login et/ou mot de passe incorrect");
-		error.setId("alertMessage");
+		error.setPadding(new Insets(10.));
+		error.setId("warning");
 		
 		/*
 		 * Cette action permet de se connecter en tant qu'administrateur et de pouvoir acc�der � plus de fonctionnalit�s
@@ -144,8 +135,7 @@ public class IdentificationPannel extends VBox {
 				stage.setTitle("Annuaire");
 				stage.setScene(scene);
 			}
-		});
-		
+		});		
 
 	}
 	
@@ -217,42 +207,5 @@ public class IdentificationPannel extends VBox {
 	public void setLabel(Label error) {
 		this.error = error;
 	}
-
-
-
-	public Button getDeleteBtn() {
-		return deleteBtn;
-	}
-
-
-
-	public void setDeleteBtn(Button deleteBtn) {
-		this.deleteBtn = deleteBtn;
-	}
-
-
-
-	public Button getUpdateBtn() {
-		return updateBtn;
-	}
-
-
-
-	public void setUpdateBtn(Button updateBtn) {
-		this.updateBtn = updateBtn;
-	}
-
-
-
-	public HBox getHbAdmin() {
-		return hbAdmin;
-	}
-
-
-
-	public void setHbAdmin(HBox hbAdmin) {
-		this.hbAdmin = hbAdmin;
-	}
-	
 
 }
