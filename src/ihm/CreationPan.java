@@ -2,11 +2,9 @@ package ihm;
 
 import java.io.File;
 import model.CreationAnnuaire;
-import model.InternProfileDao;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -29,7 +27,6 @@ public class CreationPan extends BorderPane {
 	private Label error;
 
 	public CreationPan() {
-		super();	
 
 		lblInfo1 = new Label("Choisissez le fichier à partir duquel vous souhaitez créer un annuaire : \r");
 		btnBrowse = new Button("Rechercher");
@@ -65,19 +62,10 @@ public class CreationPan extends BorderPane {
 					String origin = lblFile.getText();
 					creation(origin);
 					lblInfo2 = new Label("La création de votre annuaire a bien été réalisée");
-					setCenter(lblInfo2);
-					//Affichage de la tableview
-					InternProfileDao dao = new InternProfileDao();
-					TableViewInternProfiles tableview = new TableViewInternProfiles(dao.getAll());
-					MainPannel root = new MainPannel();
-					
-					root.setCenter(tableview);
-					
+					setCenter(lblInfo2);					
 					//Fermeture auto
-					
-					
-					
-					getChildren().add(lblInfo2);		//supp
+					Stage stage = (Stage) getScene().getWindow();
+					stage.close();
 				}
 			}
 		});	

@@ -138,8 +138,6 @@ public class IdentificationPannel extends VBox {
 		});		
 
 	}
-	
-
 
 	public Label getLblLogin() {
 		return lblLogin;

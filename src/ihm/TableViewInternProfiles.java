@@ -2,7 +2,6 @@ package ihm;
 
 import java.util.List;
 import model.InternProfile;
-import model.InternProfileDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,10 +20,7 @@ public class TableViewInternProfiles extends AnchorPane {
 
 	@SuppressWarnings("unchecked")
 	public TableViewInternProfiles(List<InternProfile> internProfiles) {
-		super();
-
 		observableProfiles = FXCollections.observableArrayList(internProfiles);
-
 		tableView = new TableView<InternProfile>(observableProfiles);
 
 		TableColumn<InternProfile, String> colSurName = new TableColumn<InternProfile, String>("Nom");
@@ -41,7 +37,6 @@ public class TableViewInternProfiles extends AnchorPane {
 		tableView.getColumns().addAll(colSurName, colFirstName, colCounty, colPromotion, colStudyYear);
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
 		getChildren().add(tableView);
 		setPrefSize(800, 500);
 
@@ -55,24 +50,17 @@ public class TableViewInternProfiles extends AnchorPane {
 			@Override
 			public void changed(ObservableValue<? extends InternProfile> observable, InternProfile oldValue,
 					InternProfile newValue) {
-
 				MainPannel root = (MainPannel) getScene().getRoot();
-
 				if(root.getLeft() != null) {
-
 					VBoxAddSearch searchBox =  (VBoxAddSearch) root.getLeft();
-
 					searchBox.getTextFieldSurname().setText(newValue.getSurname());
 					searchBox.getTextFieldFirstName().setText(newValue.getFirstName());
 					searchBox.getTextFieldCounty().setText(newValue.getCounty());
 					searchBox.getTextFieldPromotion().setText(newValue.getPromotion());
 					searchBox.getCbYearStudy().setValue(newValue.getStudyYear());;
-
 				}
-
 			}
 		});
-
 
 	}
 	

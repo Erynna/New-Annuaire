@@ -44,8 +44,7 @@ public class VBoxAddSearch extends VBox {
 	private Stage popUpWindow;
 
 	public VBoxAddSearch() {
-		super();
-		
+	
 		for (int i = 2000; i < 2051; i++) {
 			cbYearStudy.getItems().add(i);
 		}
@@ -143,18 +142,14 @@ public class VBoxAddSearch extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-
 				MainPannel root = (MainPannel) getScene().getRoot();
 				InternProfileDao dao = new InternProfileDao();
 
 				int checkBoxYearStudy = 0;
-
 				if (cbYearStudy.getValue() != null) {
 					checkBoxYearStudy = cbYearStudy.getValue();
 				}
-
 				List<InternProfile> filteredProfiles = dao.filterSearchInternProfile(textFieldSurname.getText(), textFieldFirstName.getText(), textFieldCounty.getText(), textFieldPromotion.getText(), checkBoxYearStudy);
-
 				TableViewInternProfiles tableViewFiltered = new TableViewInternProfiles(filteredProfiles);
 				root.setCenter(tableViewFiltered);
 			}
@@ -163,8 +158,7 @@ public class VBoxAddSearch extends VBox {
 		updateBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {
-				
+			public void handle(ActionEvent event) {	
 				MainPannel root = (MainPannel) getScene().getRoot();
 				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
 
@@ -175,7 +169,6 @@ public class VBoxAddSearch extends VBox {
 					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
 					alert.showAndWait();
 				}else {
-
 					VBoxAddSearch optionVbox = (VBoxAddSearch) root.getLeft();
 					InternProfileDao dao = new InternProfileDao();
 					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
@@ -183,8 +176,6 @@ public class VBoxAddSearch extends VBox {
 					dao.modifyInternProfile(oldIp, newIp);
 					root.setCenter(new TableViewInternProfiles(dao.getAll()));
 				}
-
-				
 			}
 		});
 
@@ -192,7 +183,6 @@ public class VBoxAddSearch extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-
 				MainPannel root = (MainPannel) getScene().getRoot();
 				getTextFieldSurname().setText("");
 				getTextFieldFirstName().setText("");
@@ -201,13 +191,11 @@ public class VBoxAddSearch extends VBox {
 				getCbYearStudy().setValue(null);
 				InternProfileDao dao = new InternProfileDao();
 				root.setCenter(new TableViewInternProfiles(dao.getAll()));
-
 			}
 		});
-
 		setSpacing(5.);
-
 	}
+	
 	public Label getTitle() {
 		return title;
 	}

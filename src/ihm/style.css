@@ -1,8 +1,3 @@
-
-.customButton{
-	
-}
-
 #warning{
 	-fx-text-fill: crimson;
 	-fx-font-size : 14;
@@ -10,6 +5,11 @@
 
 #menu{
 	-fx-text-fill: midnightblue;
-	-fx-font-size : 20;
+	-fx-font-size : 60;
+	-fx-font-weight: bold;
+}
+
+#btnmenu{
+	-fx-font-size: 14;
 	-fx-font-weight: bold;
 }
