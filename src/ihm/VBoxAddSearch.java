@@ -89,7 +89,7 @@ public class VBoxAddSearch extends VBox {
 					
 					boolean canSave = true;
 					
-					MainPannel root = (MainPannel) getScene().getRoot();	          
+					MainPannel root = (MainPannel) getScene().getRoot();	
 	                ObservableList<InternProfile> observableProfiles = root.getTableViewInternProfiles().getObservableProfiles();
 					
 					for (InternProfile observableProfile : observableProfiles) {								
@@ -103,9 +103,10 @@ public class VBoxAddSearch extends VBox {
 							canSave = false;
 							break;
 						}
-					}if(canSave) {					
-						observableProfiles.add(internProfile);
-						FXCollections.sort(observableProfiles, new InternProfileComparator());											
+					}if(canSave) {
+						TableViewInternProfiles tableView = (TableViewInternProfiles) root.getCenter();
+						tableView.getObservableProfiles().add(internProfile);
+						FXCollections.sort(tableView.getObservableProfiles(), new InternProfileComparator());											
 		                InternProfileDao dao = new InternProfileDao();
 		                dao.addInternProfile(internProfile);
 					} 

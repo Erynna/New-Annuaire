@@ -132,8 +132,9 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-                InternProfile profile = root.getTableViewInternProfiles().getTableView().getSelectionModel().getSelectedItem();
-                root.getTableViewInternProfiles().getObservableProfiles().remove(profile);
+				TableViewInternProfiles tableView = (TableViewInternProfiles) root.getCenter();
+                InternProfile profile = tableView.getTableView().getSelectionModel().getSelectedItem();
+                tableView.getObservableProfiles().remove(profile);
                 InternProfileDao dao = new InternProfileDao();
                 dao.deleteInternProfile(profile);
 
