@@ -30,7 +30,7 @@ public class HBoxSearchOptions extends HBox {
 		super();	
 		setSpacing(10);
 		setPadding(new Insets(10.));
-		
+
 		setMargin(updateBtn, new Insets(0, 10, 0, 200));
 
 		searchBtn.setPrefSize(100, 30);
@@ -38,22 +38,23 @@ public class HBoxSearchOptions extends HBox {
 		creationbtn.setPrefSize(100, 30);
 		updateBtn.setPrefSize(100, 30);
 		deleteBtn.setPrefSize(100, 30);
-		
+
 		getChildren().addAll(lblMenu, creationbtn, btnR, searchBtn, addBtn, updateBtn, deleteBtn);
 
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-            public void handle(ActionEvent event) {
-                VBoxAddProfile vBoxAddProfile = new VBoxAddProfile();
-                MainPannel root = (MainPannel) getScene().getRoot();
+			public void handle(ActionEvent event) {
 
-                vBoxAddProfile.getTitle().setText("AJOUTER UN STAGIAIRE");
+				VBoxAddSearch vBoxAddProfile = new VBoxAddSearch();
+				MainPannel root = (MainPannel) getScene().getRoot();
 
-                root.setLeft(vBoxAddProfile);
+				vBoxAddProfile.getTitle().setText("AJOUTER UN STAGIAIRE");
+				vBoxAddProfile.getBottomPane().getChildren().addAll(vBoxAddProfile.getAddBtn(), vBoxAddProfile.getResetBtn());
+				root.setLeft(vBoxAddProfile);
 
-            }
-        });
+			}
+		});
 
 		//Instancie une VBox avec l'ensemble des champs nécessaire pour une recherche
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -61,12 +62,12 @@ public class HBoxSearchOptions extends HBox {
 			@Override
 			public void handle(ActionEvent event) {
 
-				VBoxSearchOptions searchBox = new VBoxSearchOptions();
+				VBoxAddSearch searchBox = new VBoxAddSearch();
 
 				MainPannel root = (MainPannel) getScene().getRoot();
 
 				searchBox.getTitle().setText("RECHERCHER UN STAGIAIRE");
-
+				searchBox.getBottomPane().getChildren().addAll(searchBox.getSearchBtn(), searchBox.getResetBtn());
 				root.setLeft(searchBox);							
 
 			}
@@ -94,32 +95,48 @@ public class HBoxSearchOptions extends HBox {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
 				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
-				
-				if (root.getLeft() == null) {
 
-					VBoxSearchOptions searchBox = new VBoxSearchOptions();
-					root.setLeft(searchBox);
-					searchBox.getTitle().setText("MODIFIER UN STAGIAIRE");
-
+				if (root.getLeft() != null) {
+					
+					VBoxAddSearch vboxOption = (VBoxAddSearch) root.getLeft();
+					
+					if(vboxOption.getTitle().getText() == "AJOUTER UN STAGIAIRE") {
+						
+						vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
+						vboxOption.getBottomPane().getChildren().remove(0);
+						vboxOption.getBottomPane().getChildren().remove(0);
+						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
+						
+					}else if (vboxOption.getTitle().getText() == "RECHERCHER UN STAGIAIRE") {
+						
+						vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
+						vboxOption.getBottomPane().getChildren().remove(0);
+						vboxOption.getBottomPane().getChildren().remove(0);
+						vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
+						
+					}
+					
+				}else {
+					
+					VBoxAddSearch vboxOption = new VBoxAddSearch();
+					vboxOption.getTitle().setText("MODIFIER UN STAGIAIRE");
+					vboxOption.getBottomPane().getChildren().addAll(vboxOption.getSearchBtn(), vboxOption.getResetBtn());
 				}
-				
+
 				if(tableView.getSelectionModel().getSelectedItem() == null) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Message d'alerte");
 					alert.setHeaderText("Aucun stagiaire sélectionné");
 					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
 					alert.showAndWait();
-				}
-				
-				else {
+				}else {
 
+					VBoxAddSearch optionVbox = (VBoxAddSearch) root.getLeft();
 					InternProfileDao dao = new InternProfileDao();
-					VBoxSearchOptions searchBox = (VBoxSearchOptions) root.getLeft();
 					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
-					InternProfile newIp = new InternProfile(searchBox.getTextFieldSurname().getText(), searchBox.getTextFieldFirstName().getText(), searchBox.getTextFieldCounty().getText(), searchBox.getTextFieldPromotion().getText(), searchBox.getCbYearStudy().getValue());
+					InternProfile newIp = new InternProfile(optionVbox.getTextFieldSurname().getText(), optionVbox.getTextFieldFirstName().getText(), optionVbox.getTextFieldCounty().getText(), optionVbox.getTextFieldPromotion().getText(), optionVbox.getCbYearStudy().getValue());
 					dao.modifyInternProfile(oldIp, newIp);
 					root.setCenter(new TableViewInternProfiles(dao.getAll()));
-
 				}
 
 			}
@@ -131,23 +148,23 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-				
+
 				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
-				
+
 				InternProfile profile = tableView.getSelectionModel().getSelectedItem();
-				
+
 				InternProfileDao dao = new InternProfileDao();
-				
+
 				dao.deleteInternProfile(profile);
-				
+
 				root.setCenter(new TableViewInternProfiles(dao.getAll()));
-				
+
 			}
 		});
-		
+
 		File annuaire = new File("./internBDD.bin");
 		btnR.setOnAction(new EventHandler<ActionEvent>() {		//Fonction --> btnR du main pannel à enlever
-			
+
 			@Override
 			public void handle(ActionEvent event) {
 				if(annuaire.exists()) {
@@ -203,5 +220,5 @@ public class HBoxSearchOptions extends HBox {
 	public void setBtnR(Button btnR) {
 		this.btnR = btnR;
 	}
-	
+
 }

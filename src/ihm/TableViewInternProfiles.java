@@ -23,7 +23,7 @@ public class TableViewInternProfiles extends AnchorPane {
 	public TableViewInternProfiles(List<InternProfile> internProfiles) {
 		super();
 
-		ObservableList<InternProfile> observableProfiles = FXCollections.observableArrayList(internProfiles);
+		observableProfiles = FXCollections.observableArrayList(internProfiles);
 
 		tableView = new TableView<InternProfile>(observableProfiles);
 
@@ -60,7 +60,7 @@ public class TableViewInternProfiles extends AnchorPane {
 
 				if(root.getLeft() != null) {
 
-					VBoxSearchOptions searchBox = (VBoxSearchOptions) root.getLeft();
+					VBoxAddSearch searchBox =  (VBoxAddSearch) root.getLeft();
 
 					searchBox.getTextFieldSurname().setText(newValue.getSurname());
 					searchBox.getTextFieldFirstName().setText(newValue.getFirstName());
