@@ -44,9 +44,6 @@ public class VBoxAddSearch extends VBox {
 
 	public VBoxAddSearch() {
 		super();
-
-		InternProfileDao dao = new InternProfileDao();
-		ObservableList<InternProfile> observableProfiles = FXCollections.observableArrayList(dao.getAll());
 		
 		for (int i = 2000; i < 2051; i++) {
 			cbYearStudy.getItems().add(i);
@@ -78,16 +75,21 @@ public class VBoxAddSearch extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (textFieldSurname != null && textFieldFirstName != null && textFieldCounty != null && textFieldPromotion != null && cbYearStudy.getValue() != null) {
-					String surname = textFieldSurname.getText().toUpperCase();
-					String firstname = textFieldFirstName.getText().substring(0,1).toUpperCase() + textFieldFirstName.getText().substring(1).toLowerCase();
-					String county = textFieldCounty.getText().toUpperCase();
-					String promotion = textFieldPromotion.getText().toUpperCase();
-					int studyYear = cbYearStudy.getValue();
+				if (!textFieldSurname.getText().trim().equals("") && !textFieldFirstName.getText().trim().equals("") && !textFieldCounty.getText().trim().equals("") && !textFieldPromotion.getText().trim().equals("") && cbYearStudy.getValue() != null) {
+					String surname = textFieldSurname.getText().toUpperCase().trim();
+					String firstname = textFieldFirstName.getText().substring(0,1).toUpperCase() + textFieldFirstName.getText().substring(1).toLowerCase().trim();
+					String county = textFieldCounty.getText().toUpperCase().trim();
+					String promotion = textFieldPromotion.getText().toUpperCase().trim();
+					int studyYear = cbYearStudy.getValue();				
 					
 					InternProfile internProfile = new InternProfile(surname, firstname, county, promotion, studyYear);
+					
 					boolean canSave = true;
-					for (InternProfile observableProfile : observableProfiles) {
+					
+					MainPannel root = (MainPannel) getScene().getRoot();	          
+	                ObservableList<InternProfile> observableProfiles = root.getTableViewInternProfiles().getObservableProfiles();
+					
+					for (InternProfile observableProfile : observableProfiles) {								
 						InternProfileComparator internProfileComparator = new InternProfileComparator();
 						if(internProfileComparator.compare(internProfile, observableProfile) == 0) {
 							Alert alert = new Alert(AlertType.WARNING);
@@ -98,33 +100,31 @@ public class VBoxAddSearch extends VBox {
 							canSave = false;
 							break;
 						}
-					}if(canSave) {
+					}if(canSave) {					
 						observableProfiles.add(internProfile);
-						dao.addInternProfile(internProfile);
-						TableViewInternProfiles tableViewInternProfiles = new TableViewInternProfiles(dao.getAll());
-						MainPannel root = (MainPannel) getScene().getRoot();
-						root.setCenter(tableViewInternProfiles);
+						FXCollections.sort(observableProfiles, new InternProfileComparator());											
+		                InternProfileDao dao = new InternProfileDao();
+		                dao.addInternProfile(internProfile);
 					} 
-				}else if (textFieldSurname.getLength() == 0 || textFieldFirstName.getLength() == 0 || textFieldCounty.getLength() == 0 || textFieldPromotion.getLength() == 0 || cbYearStudy.getValue() == null) {
-					if(textFieldSurname.getText() == null) {
+				}else if (textFieldSurname.getText().trim().equals("")|| textFieldFirstName.getText().trim().equals("") || textFieldCounty.getText().trim().equals("") || textFieldPromotion.getText().trim().equals("") || cbYearStudy.getValue() == null) {
+					if(textFieldSurname.getText().trim().equals("")) {
 						textFieldSurname.setPromptText("Veuillez entrer un nom");
 						textFieldSurname.setStyle("-fx-prompt-text-fill: red");
 					}
-					if(textFieldFirstName.getText() == null) {
+					if(textFieldFirstName.getText().trim().equals("")) {
 						textFieldFirstName.setPromptText("Veuillez entrer un prénom");
 						textFieldFirstName.setStyle("-fx-prompt-text-fill: red");
 					}
-					if(textFieldCounty.getText() == null) {
+					if(textFieldCounty.getText().trim().equals("")) {
 						textFieldCounty.setPromptText("Veuillez entrer un département");
 						textFieldCounty.setStyle("-fx-prompt-text-fill: red");
 					}
-					if(textFieldPromotion.getText() == null) {
+					if(textFieldPromotion.getText().trim().equals("")) {
 						textFieldPromotion.setPromptText("Veuillez entrer une promotion");
 						textFieldPromotion.setStyle("-fx-prompt-text-fill: red");
 					}
 					if(cbYearStudy.getValue() == null) {
-						cbYearStudy.setPromptText("Veuillez entrer une année");
-						cbYearStudy.setStyle("-fx-prompt-text-fill: red");
+						cbYearStudy.setPromptText("Veuillez entrer une année");						
 					}			
 					Alert alertMissingInfo = new Alert(AlertType.WARNING);
 					alertMissingInfo.setTitle("MESSAGE D'ALERTE");

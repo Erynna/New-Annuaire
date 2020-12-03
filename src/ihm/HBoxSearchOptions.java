@@ -52,7 +52,7 @@ public class HBoxSearchOptions extends HBox {
 				vBoxAddProfile.getTitle().setText("AJOUTER UN STAGIAIRE");
 				vBoxAddProfile.getBottomPane().getChildren().addAll(vBoxAddProfile.getAddBtn(), vBoxAddProfile.getResetBtn());
 				root.setLeft(vBoxAddProfile);
-
+				
 			}
 		});
 
@@ -148,16 +148,10 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-
-				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
-
-				InternProfile profile = tableView.getSelectionModel().getSelectedItem();
-
-				InternProfileDao dao = new InternProfileDao();
-
-				dao.deleteInternProfile(profile);
-
-				root.setCenter(new TableViewInternProfiles(dao.getAll()));
+                InternProfile profile = root.getTableViewInternProfiles().getTableView().getSelectionModel().getSelectedItem();
+                root.getTableViewInternProfiles().getObservableProfiles().remove(profile);
+                InternProfileDao dao = new InternProfileDao();
+                dao.deleteInternProfile(profile);
 
 			}
 		});
