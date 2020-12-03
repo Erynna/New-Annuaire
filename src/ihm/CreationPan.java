@@ -61,7 +61,6 @@ public class CreationPan extends BorderPane {
 			public void handle(ActionEvent event) {
 				if(lblFile.getText() != null) {
 					String origin = lblFile.getText();
-					System.out.println(origin);
 					creation(origin);
 					lblInfo2 = new Label("La création de votre annuaire a bien été réalisée");
 					getChildren().add(lblInfo2);		

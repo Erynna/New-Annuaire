@@ -30,11 +30,15 @@ public class HBoxSearchOptions extends HBox {
 		super();	
 		setSpacing(10);
 		setPadding(new Insets(10.));
+		
+		setMargin(updateBtn, new Insets(0, 10, 0, 200));
 
 		searchBtn.setPrefSize(100, 30);
 		addBtn.setPrefSize(100, 30);
 		creationbtn.setPrefSize(100, 30);
-
+		updateBtn.setPrefSize(100, 30);
+		deleteBtn.setPrefSize(100, 30);
+		
 		getChildren().addAll(lblMenu, creationbtn, btnR, searchBtn, addBtn, updateBtn, deleteBtn);
 
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -89,25 +93,38 @@ public class HBoxSearchOptions extends HBox {
 			public void handle(ActionEvent event) {
 
 				MainPannel root = (MainPannel) getScene().getRoot();
-
+				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
+				
 				if (root.getLeft() == null) {
 
+					VBoxSearchOptions searchBox = new VBoxSearchOptions();
+					root.setLeft(searchBox);
+					searchBox.getTitle().setText("MODIFIER UN STAGIAIRE");
+
+				}
+				
+				if(tableView.getSelectionModel().getSelectedItem() == null) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Message d'alerte");
 					alert.setHeaderText("Aucun stagiaire sélectionné");
-					alert.setContentText("Vous n'avez sélectionnez aucun Stagiaire à modifier");
+					alert.setContentText("Veuillez sélectionner le stagiaire à modifier");
 					alert.showAndWait();
+				}
+				
+				else {
 
-
-				}else {
-
-					//Méthode d'actualisation de la BDD
+					InternProfileDao dao = new InternProfileDao();
+					VBoxSearchOptions searchBox = (VBoxSearchOptions) root.getLeft();
+					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
+					InternProfile newIp = new InternProfile(searchBox.getTextFieldSurname().getText(), searchBox.getTextFieldFirstName().getText(), searchBox.getTextFieldCounty().getText(), searchBox.getTextFieldPromotion().getText(), searchBox.getCbYearStudy().getValue());
+					dao.modifyInternProfile(oldIp, newIp);
+					root.setCenter(new TableViewInternProfiles(dao.getAll()));
 
 				}
 
 			}
 		});
-		
+
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
