@@ -1,6 +1,7 @@
 package ihm;
 
 import model.AdminUserDao;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class CreationAdminPan extends VBox {
 
@@ -75,6 +77,8 @@ public class CreationAdminPan extends VBox {
 						getChildren().add(error);
 					}else {
 						dao.addAdminAccount(login, password);
+						Stage stage = (Stage) getScene().getWindow();
+						stage.close();
 					}
 				}else {
 					getChildren().add(error2);
