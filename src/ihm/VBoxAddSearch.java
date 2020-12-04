@@ -88,8 +88,10 @@ public class VBoxAddSearch extends VBox {
 					
 					boolean canSave = true;
 					
-					MainPannel root = (MainPannel) getScene().getRoot();	
-	                ObservableList<InternProfile> observableProfiles = root.getTableViewInternProfiles().getObservableProfiles();
+					MainPannel root = (MainPannel) getScene().getRoot();
+					InternProfileDao dao = new InternProfileDao();
+					TableViewInternProfiles tableviewIP = new TableViewInternProfiles(dao.getAll());
+	                ObservableList<InternProfile> observableProfiles = tableviewIP.getObservableProfiles();
 					
 					for (InternProfile observableProfile : observableProfiles) {								
 						InternProfileComparator internProfileComparator = new InternProfileComparator();
@@ -106,7 +108,6 @@ public class VBoxAddSearch extends VBox {
 						TableViewInternProfiles tableView = (TableViewInternProfiles) root.getCenter();
 						tableView.getObservableProfiles().add(internProfile);
 						FXCollections.sort(tableView.getObservableProfiles(), new InternProfileComparator());											
-		                InternProfileDao dao = new InternProfileDao();
 		                dao.addInternProfile(internProfile);
 					} 
 				}else if (textFieldSurname.getText().trim().equals("")|| textFieldFirstName.getText().trim().equals("") || textFieldCounty.getText().trim().equals("") || textFieldPromotion.getText().trim().equals("") || cbYearStudy.getValue() == null) {
@@ -160,9 +161,10 @@ public class VBoxAddSearch extends VBox {
 			@Override
 			public void handle(ActionEvent event) {	
 				MainPannel root = (MainPannel) getScene().getRoot();
-				TableView<InternProfile> tableView = root.getTableViewInternProfiles().getTableView();
+				InternProfileDao dao = new InternProfileDao();
+				TableViewInternProfiles tableviewScreen = (TableViewInternProfiles) root.getCenter();
 
-				if(tableView.getSelectionModel().getSelectedItem() == null) {
+				if(tableviewScreen.getTableView().getSelectionModel().getSelectedItem() == null) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Message d'alerte");
 					alert.setHeaderText("Aucun stagiaire sélectionné");
@@ -170,11 +172,13 @@ public class VBoxAddSearch extends VBox {
 					alert.showAndWait();
 				}else {
 					VBoxAddSearch optionVbox = (VBoxAddSearch) root.getLeft();
-					InternProfileDao dao = new InternProfileDao();
-					InternProfile oldIp = tableView.getSelectionModel().getSelectedItem();
+					InternProfile oldIp = tableviewScreen.getTableView().getSelectionModel().getSelectedItem();
 					InternProfile newIp = new InternProfile(optionVbox.getTextFieldSurname().getText(), optionVbox.getTextFieldFirstName().getText(), optionVbox.getTextFieldCounty().getText(), optionVbox.getTextFieldPromotion().getText(), optionVbox.getCbYearStudy().getValue());
 					dao.modifyInternProfile(oldIp, newIp);
-					root.setCenter(new TableViewInternProfiles(dao.getAll()));
+					tableviewScreen.getObservableProfiles().remove(oldIp);
+					tableviewScreen.getObservableProfiles().add(newIp);
+					FXCollections.sort(tableviewScreen.getObservableProfiles(), new InternProfileComparator());
+
 				}
 			}
 		});
